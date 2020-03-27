@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>Dashboard Template for Bootstrap</title>
+		<!-- Bootstrap core CSS -->
+		<link href="../../static/asserts/css/bootstrap.min.css"
+			  th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+			  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+			  crossorigin="anonymous">
+		<link rel="stylesheet" th:href="@{/webjars/bootstrap-table/1.15.5/bootstrap-table.min.css}">
+		<!-- Custom styles for this template -->
+		<link href="../../static/asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+		<style type="text/css">
+			/* Chart.js */
+			
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div th:replace="commons/bar::topbar"></div>
+
+		<div class="container-fluid">
+			<div class="row">
+				<div th:replace="commons/bar::sidebar(activeUri='emp')"></div>
+
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<div class="table-responsive">
+						
+						<table data-toggle="table" data-pagination="true"
+							   data-search="true" data-browse="true" data-thead-classes="thead-dark"
+							   th:data-locale="${session.locale}">
+							<thead>
+								<tr>
+									<th data-sortable="true" data-align="center">[[#{list.id}]]</th>
+									<th data-sortable="true" data-align="center">[[#{list.name}]]</th>
+									<th data-sortable="true" data-align="center">[[#{list.phone}]]</th>
+									<th data-sortable="true" data-align="center">[[#{list.username}]]</th>
+									<th data-sortable="true" data-align="center">[[#{list.type}]]</th>
+									<th data-align="center">
+										<a class="btn btn-sm btn-success" th:href="@{/emp}" th:if="${session.type==0}">添加员工</a>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="emp:${emps}">
+									<td th:text="${emp.id}"></td>
+									<td th:text="${emp.name}"></td>
+									<td th:text="${emp.phone}"></td>
+									<td th:text="${emp.username}"></td>
+									<td th:text="${emp.type}==0?'是':'否'"></td>
+									<td>
+										<a class="btn btn-sm btn-primary" th:href="@{/emp/}+${emp.id}">[[#{list.edit}]]</a>
+										<a th:id="${emp.id}" class="btn btn-sm btn-danger"
+										   href="#" onclick="delEmp(id)">[[#{list.del}]]</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</main>
+				<form id="del_emp" method="post">
+					<input type="hidden" name="_method" value="delete"/>
+				</form>
+			</div>
+		</div>
+
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src="../../static/asserts/js/jquery-3.2.1.slim.min.js"
+				th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+		<script type="text/javascript" src="../../static/asserts/js/popper.min.js"
+				th:src="@{/asserts/js/popper.min.js}"></script>
+		<script type="text/javascript" src="../../static/asserts/js/bootstrap.min.js"
+				th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+		<script type="text/javascript" th:src="@{/webjars/bootstrap-table/1.15.5/bootstrap-table.min.js}"></script>
+		<script type="text/javascript"
+				th:src="@{/webjars/bootstrap-table/1.15.5/locale/bootstrap-table-zh-CN.js}"></script>
+		<script type="text/javascript"
+				th:src="@{/webjars/bootstrap-table/1.15.5/locale/bootstrap-table-en-US.js}"></script>
+		<!-- Icons -->
+		<script type="text/javascript" src="../../static/asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
+		<script>
+			feather.replace()
+		</script>
+		<script>
+			function delEmp(del_uri) {
+				del_uri = "/emp/" + del_uri;
+				const rs = confirm("确定要删除吗？");
+				if (rs) {
+					$("#del_emp").attr("action", del_uri).submit();
+				}
+			}
+		</script>
+	</body>
+
+</html>

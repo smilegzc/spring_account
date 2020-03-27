@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smilegzc.spring_account.mapper.EmployeeMapper">
+<!--    Employee getEmployeeById(int id);-->
+    <select id="getEmployeeById" resultMap="getEmployeeMap">
+        select * from employee where id=#{id}
+    </select>
+<!--    Employee getEmployeeByUser(String username);-->
+    <select id="getEmployeeByUser" resultMap="getEmployeeMap">
+        select * from employee where username=#{username}
+    </select>
+<!--    Collection<Employee> getEmployees();-->
+    <select id="getEmployees" resultMap="getEmployeeMap">
+        select * from employee
+    </select>
+    <resultMap id="getEmployeeMap" type="com.smilegzc.spring_account.entity.Employee">
+        <id property="id" column="id"/>
+        <result property="phone" column="phone"/>
+        <result property="name" column="name"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="type" column="type"/>
+    </resultMap>
+
+<!--    void setEmployee(Employee employee);-->
+    <insert id="setEmployee">
+        insert into employee(phone, name, username, password, type)
+        values (#{phone}, #{name}, #{username}, #{password}, #{type})
+    </insert>
+<!--    void delEmployee(Employee employee);-->
+    <delete id="delEmployee">
+        delete from employee where id=#{id}
+    </delete>
+<!--    void updateEmployee(Employee employee);-->
+    <update id="updateEmployee">
+        update employee set phone=#{phone}, name=#{name}, username=#{username}, password=#{password}, type=#{type} where id=#{id}
+    </update>
+</mapper>

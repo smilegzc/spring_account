@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smilegzc.spring_account.mapper.OrderMapper">
+<!--    Collection<Order> getOrderByName(String name);-->
+    <select id="getOrderByName" resultMap="OrderMap">
+        select * from `order` o inner join goods g on o.id=g.g_order_id where o.name=#{name}
+    </select>
+<!--    Collection<Order> getOrderByDate(String date);-->
+    <select id="getOrderByDate" resultMap="OrderMap">
+        select * from `order` o inner join goods g on o.id=g.g_order_id where DATE_FORMAT(o.date,'%Y%m%d')=#{date}
+    </select>
+    
+    <resultMap id="OrderMap" type="com.smilegzc.spring_account.entity.Order">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sell" column="sell"/>
+        <result property="receivable" column="receivable"/>
+        <result property="actual" column="actual"/>
+        <result property="date" column="date"/>
+        <collection property="goods" ofType="com.smilegzc.spring_account.entity.Goods" javaType="java.util.List">
+            <id property="g_id" column="g_id"/>
+            <result property="g_name" column="g_name"/>
+            <result property="g_number" column="g_number"/>
+            <result property="g_price" column="g_price"/>
+            <result property="g_all" column="g_all"/>
+        </collection>
+    </resultMap>
+    
+<!--    void setOrder(Order order);-->
+    <insert id="setOrder">
+        insert into `order`(name, sell, receivable, actual, date) 
+        VALUES (#{name}, #{sell}, #{receivable}, #{actual}, now());
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+<!--    void delOrder(int id);-->
+    <delete id="delOrder">
+        delete o, g from `order` o left join goods g on g.g_order_id=o.id where o.id=#{id}
+    </delete>
+
+<!--    Collection<Goods> getGoodsByName(String name);-->
+    <select id="getGoodsByName" resultMap="goodsMap">
+        select * from goods where g_name=#{name}
+    </select>
+<!--    Collection<Goods> getGoodsByOrder(int orderId);-->
+    <select id="getGoodsByOrder" resultMap="goodsMap">
+        select * from goods where g_order_id=#{orderId}
+    </select>
+    
+    <resultMap id="goodsMap" type="com.smilegzc.spring_account.entity.Goods">
+        <id property="g_id" column="g_id"/>
+        <result property="g_name" column="g_name"/>
+        <result property="g_number" column="g_number"/>
+        <result property="g_price" column="g_price"/>
+        <result property="g_all" column="g_all" />
+        <result property="g_order_id" column="g_order_id"/>
+    </resultMap>
+<!--    void setGoods(Goods goods);-->
+    <insert id="setGoods">
+        insert into goods(g_name, g_number, g_price, g_all, g_order_id) 
+        VALUES (#{g_name}, #{g_number}, #{g_price}, #{g_all}, #{g_order_id})
+    </insert>
+</mapper>

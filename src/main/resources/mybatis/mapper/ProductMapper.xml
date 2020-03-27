@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smilegzc.spring_account.mapper.ProductMapper">
+<!--    Collection<Product> getProducts();-->
+    <select id="getProducts" resultMap="product_map">
+        select * from product
+    </select>
+<!--    Product getProductById(int id);-->
+    <select id="getProductById" resultMap="product_map">
+        select * from product where id=#{id}
+    </select>
+<!--    Product getProductByName(String name);-->
+    <select id="getProductByName" resultMap="product_map">
+        select * from product where id = #{name}
+    </select>
+    
+    <resultMap id="product_map" type="com.smilegzc.spring_account.entity.Product">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="purchase" column="purchase"/>
+        <result property="sell" column="sell"/>
+        <result property="number" column="number"/>
+    </resultMap>
+    
+<!--    void setProduct(Product product);-->
+    <insert id="setProduct">
+        insert into product(name, purchase, sell, number) VALUES (#{name}, #{purchase}, #{sell}, #{number})
+    </insert>
+<!--    void delProduct(Product product);-->
+    <delete id="delProduct">
+        delete from product where id=#{id}
+    </delete>
+<!--    void updateProduct(Product product);-->
+    <update id="updateProduct">
+        update product set name=#{name}, purchase=#{purchase}, sell=#{sell}, number=#{number} where id=#{id}
+    </update>
+    
+<!--    void sellProduct(Product product);-->
+    <update id="sellProduct">
+        insert into sell_product(name, purchase, number) VALUES (#{name}, #{purchase}, #{number})
+    </update>
+</mapper>

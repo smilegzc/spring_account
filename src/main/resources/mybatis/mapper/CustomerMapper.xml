@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smilegzc.spring_account.mapper.CustomerMapper">
+<!--    Collection<Customer> getCustomers();-->
+    <select id="getCustomers" resultMap="customerMap">
+        select * from customer
+    </select>
+<!--    Customer getCustomerById(int id);-->
+    <select id="getCustomerById" resultMap="customerMap">
+        select * from customer where id=#{id}
+    </select>
+<!--    Customer getCustomerByName(String name);-->
+    <select id="getCustomerByName" resultMap="customerMap">
+        select * from customer where name=#{name}
+    </select>
+    <resultMap id="customerMap" type="com.smilegzc.spring_account.entity.Customer">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="address" column="address"/>
+        <result property="size" column="size"/>
+    </resultMap>
+    
+<!--    void setCustomer(Customer customer);-->
+    <insert id="setCustomer">
+        insert into customer(name, phone, address, size) VALUES (#{name}, #{phone}, #{address}, #{size})
+    </insert>
+<!--    void delCustomer(int id);-->
+    <delete id="delCustomer">
+        delete from customer where id=#{id}
+    </delete>
+<!--    void updateCustomer(Customer customer);-->
+    <update id="updateCustomer">
+        update customer set name=#{name}, phone=#{phone}, address=#{address}, size=#{size} where id=#{id}
+    </update>
+</mapper>
