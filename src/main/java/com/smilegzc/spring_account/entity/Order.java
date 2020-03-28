@@ -14,7 +14,7 @@ public class Order {
     Integer id;
     String name;
     List<Goods> goods;
-    Float sell; //进货价
+    Float purchase; //进货价
     Float receivable;// 应收款
     Float actual;//实收款
     Date date;

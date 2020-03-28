@@ -49,21 +49,39 @@
 	<script type="text/javascript">
 		window.operateEvent = {
 			'click .add': function (e, value, row, index) {
-				$('#table').bootstrapTable('append', {'name':'', 'number':'', 'price':'', 'all':''});
+				$('#table').bootstrapTable('append', {'g_name':'', 'g_number':'', 'g_price':'', 'g_all':''});
 			},
 			'click .del': function (e, value, row, index) {
 				const updateTable = $("#table");
-				row.all='+';
+				row.g_all='+';
 				updateTable.bootstrapTable('updateRow', {index: index, row: row});
-				updateTable.bootstrapTable('remove', {field: 'all', values: '+'});
+				updateTable.bootstrapTable('remove', {field: 'g_all', values: '+'});
 				if(updateTable.bootstrapTable('getData').length==0) {
-					updateTable.bootstrapTable('append', {'name': '', 'number': '', 'price': '', 'all': ''});
+					updateTable.bootstrapTable('append', {'g_name': '', 'g_number': '', 'g_price': '', 'g_all': ''});
 				}
 			}
 		};
 	</script>
 		<div th:replace="commons/bar::topbar"></div>
-
+	<div class="modal fade" id="myModal" data-backdrop="static" tabindex="-1" role="dialog"
+		 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true"></span>
+					</button>
+				</div>
+				<div class="modal-body">
+					输入错误
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Understood</button>
+				</div>
+			</div>
+		</div>
+	</div>
 		<div class="container-fluid">
 			<div class="row">
 				<div th:replace="commons/bar::sidebar(activeUri='order')"></div>
@@ -76,13 +94,13 @@
 							   th:data-locale="${session.locale}" id="table">
 							<thead>
 								<tr>
-									<th data-sortable="true" data-field="name" data-align="center">商品名</th>
-									<th data-sortable="true" data-field="number" data-align="center">数量</th>
-									<th data-sortable="true" data-field="price" data-align="center">单价</th>
-									<th data-sortable="true" data-field="all" data-align="center">合计</th>
+									<th data-sortable="true" data-field="g_name" data-align="center">商品名</th>
+									<th data-sortable="true" data-field="g_number" data-align="center">数量</th>
+									<th data-sortable="true" data-field="g_price" data-align="center">单价</th>
+									<th data-sortable="true" data-field="g_all" data-align="center">合计</th>
 									<th data-field="action" data-align="center" data-formatter="formatter"
 										data-events="operateEvent">
-										<a class="btn btn-sm btn-success" onclick="getData()">提交订单</a>
+										<a class="btn btn-sm btn-success" data-toggle=’“modal” data-target="#myModal" onclick="getData()">提交订单</a>
 									</th>
 								</tr>
 							</thead>
@@ -122,8 +140,13 @@
 					type: "POST",
 					url: "/order",//传入后台的地址/方法
 					data: {para:JSON.stringify(jdata)},//参数，这里是一个json语句
-					success: function (data) {
-						window.location.href ="/order";
+					success: function (msg) {
+						if(msg === "success") {
+							window.location.href ="/order";
+						} else {
+							alert("未输入任何数据")
+						}
+						
 					},
 					error: function (err) {
 						alert("数据传输错误");
@@ -139,7 +162,7 @@
 			}
 			
 			$('#table').on('click-cell.bs.table', function (e, field, value, row, $element) {
-				if (field === 'name' || field === 'number') {
+				if (field === 'g_name' || field === 'g_number') {
 					$element.attr('contenteditable', true);
 					$element.blur(function () {
 						let index = $element.parent().data('index');
@@ -148,29 +171,29 @@
 						
 						let price;
 						let re = /^[0-9]+.?[0-9]*$/;
-						if(field === 'name') {
+						if(field === 'g_name') {
 							price = [[${products}]][tdValue];
 							if (re.test(price)) {
-								row.name = tdValue;
-								row.price = price;
-								if(re.test(row.number)) {
-									row.all = String(row.number * price);
+								row.g_name = tdValue;
+								row.g_price = price;
+								if(re.test(row.g_number)) {
+									row.g_all = String(row.g_number * price);
 								}
 								updateTable.bootstrapTable('updateRow', {index: index, row: row});
 							} else {
-								alert("没有此产品，请重新输入！")
+								alert("没有这个商品，请检查商品名")
 							}
 						}
 						
-						if(field === 'number') {
+						if(field === 'g_number') {
 							if (re.test(tdValue)) {
-								row.number = tdValue;
-								if(re.test(row.price)){
-									row.all = String(Number(tdValue) * row.price);
+								row.g_number = tdValue;
+								if(re.test(row.g_price)){
+									row.g_all = String(Number(tdValue) * row.g_price);
 								}
 								updateTable.bootstrapTable('updateRow', {index: index, row: row});
 							} else {
-								alert("请输入数字，请重新输入！")
+								alert("请输入数字，请重新输入！");
 							}
 						}
 					});

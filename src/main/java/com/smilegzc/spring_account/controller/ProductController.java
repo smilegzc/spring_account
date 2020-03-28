@@ -15,15 +15,15 @@ import java.util.Collection;
 @Controller
 public class ProductController {
     
-    final ProductMapper productMapper;
+    final ProductMapper productService;
 
-    public ProductController(ProductMapper productMapper) {
-        this.productMapper = productMapper;
+    public ProductController(ProductMapper productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/products")
     public String getProducts(Model model) {
-        Collection<Product> products = productMapper.getProducts();
+        Collection<Product> products = productService.getProducts();
         model.addAttribute("products", products);
         return "product/list";
     }
@@ -34,44 +34,37 @@ public class ProductController {
     }
     @PostMapping("/product")
     public String addProduct(Product product) {
-        productMapper.setProduct(product);
+        productService.setProduct(product);
         return "redirect:/products";
     }
     
     @GetMapping("/product/{id}")
     public String editProduct(@PathVariable("id") int id, Model model) {
-        Product product = productMapper.getProductById(id);
+        Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "product/add";
     }
     @PutMapping("/product")
     public String updateProduct(Product product) {
-        productMapper.updateProduct(product);
+        productService.updateProduct(product);
         return "redirect:/products";
     }
     
     @DeleteMapping("/product/{id}")
     public String delProduct(@PathVariable("id") int id) {
-        productMapper.delProduct(id);
+        productService.delProduct(id);
         return "redirect:/products";
     }
     
     @GetMapping("/sell_product/{id}")
     public String toSell(@PathVariable("id") int id, Model model) {
-        Product product = productMapper.getProductById(id);
+        Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "product/sell_product";
     }
     @PutMapping("/sell_product")
     public String sellProduct(Product sellProduct) {
-        productMapper.sellProduct(sellProduct);
-        
-        Product product = productMapper.getProductById(sellProduct.getId());
-        int number = product.getNumber() + sellProduct.getNumber();
-        product.setNumber(number);
-        product.setPurchase(sellProduct.getPurchase());
-        productMapper.updateProduct(product);
-        
+        productService.sellProduct(sellProduct);
         return "redirect:/products";
     }
 }

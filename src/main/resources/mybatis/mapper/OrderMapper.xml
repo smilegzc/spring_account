@@ -15,7 +15,7 @@
     <resultMap id="OrderMap" type="com.smilegzc.spring_account.entity.Order">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
-        <result property="sell" column="sell"/>
+        <result property="purchase" column="purchase"/>
         <result property="receivable" column="receivable"/>
         <result property="actual" column="actual"/>
         <result property="date" column="date"/>
@@ -30,8 +30,8 @@
     
 <!--    void setOrder(Order order);-->
     <insert id="setOrder">
-        insert into `order`(name, sell, receivable, actual, date) 
-        VALUES (#{name}, #{sell}, #{receivable}, #{actual}, now());
+        insert into `order`(name, purchase, receivable, actual, date) 
+        VALUES (#{name}, #{purchase}, #{receivable}, #{actual}, now());
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID() as id
         </selectKey>

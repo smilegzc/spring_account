@@ -4,6 +4,8 @@ import com.smilegzc.spring_account.entity.Goods;
 import com.smilegzc.spring_account.entity.Order;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 日期:2020/3/28
@@ -22,4 +24,10 @@ public interface OrderService {
     Collection<Goods> getGoodsByName(String name);
 
     Collection<Goods> getGoodsByDate(String date);
+
+    Map<String, Float> newOrder();
+    
+    List<Goods> createOrder(String goodsInfo);
+    
+    void saveOrder(String name, List<Goods> goodsList, Float sellAll);
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collection;
+import java.util.Map;
 
 @SpringBootTest
 class SpringAccountApplicationTests {
@@ -14,12 +15,7 @@ class SpringAccountApplicationTests {
     OrderService orderService;
     @Test
     void contextLoads() {
-        Collection<Goods> goodsByDate = orderService.getGoodsByDate("20200327");
-        Collection<Goods> bb = orderService.getGoodsByName("BB");
-
-        System.out.println("************goodsByDate************");
-        System.out.println(goodsByDate);
-        System.out.println("************getGoodsByName************");
-        System.out.println(bb);
+        Map<String, Float> stringFloatMap = orderService.newOrder();
+        System.out.println(stringFloatMap.keySet());
     }
 }
