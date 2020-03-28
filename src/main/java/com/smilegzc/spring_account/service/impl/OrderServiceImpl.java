@@ -81,6 +81,7 @@ public class OrderServiceImpl implements OrderService {
         float receivable = 0;
         float purchase = 0;
         String goodsName;
+        Product product = new Product();
         for(Goods goods:goodsList) {
             goodsName = goods.getG_name();
             receivable += productsSell.get(goodsName);
