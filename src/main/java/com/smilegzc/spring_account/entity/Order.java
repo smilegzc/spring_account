@@ -2,7 +2,7 @@ package com.smilegzc.spring_account.entity;
 
 import lombok.Data;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -17,5 +17,5 @@ public class Order {
     Float purchase; //进货价
     Float receivable;// 应收款
     Float actual;//实收款
-    Date date;
+    LocalDateTime date;
 }

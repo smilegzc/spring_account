@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:data-footer-formatter="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,36 +9,13 @@
 
 		<title>Dashboard Template for Bootstrap</title>
 		<!-- Bootstrap core CSS -->
-		<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}" rel="stylesheet">
-
+		<link href="../../static/asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+			  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+			  crossorigin="anonymous">
+		<link rel="stylesheet" th:href="@{/webjars/bootstrap-table/1.15.5/bootstrap-table.min.css}">
 		<!-- Custom styles for this template -->
-		<link href="asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
-		<style type="text/css">
-			/* Chart.js */
-			
-			@-webkit-keyframes chartjs-render-animation {
-				from {
-					opacity: 0.99
-				}
-				to {
-					opacity: 1
-				}
-			}
-			
-			@keyframes chartjs-render-animation {
-				from {
-					opacity: 0.99
-				}
-				to {
-					opacity: 1
-				}
-			}
-			
-			.chartjs-render-monitor {
-				-webkit-animation: chartjs-render-animation 0.001s;
-				animation: chartjs-render-animation 0.001s;
-			}
-		</style>
+		<link href="../../static/asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
 	</head>
 
 	<body>
@@ -59,54 +36,55 @@
 					</div>
 					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
 						<h1 class="h2">销量统计</h1>
-						<div class="mb-2 mb-md-0">
+						<form action="/main">
 							<div class="btn-group mr-2">
 								<label>
-									开始时间：<input class="btn btn-sm btn-outline-secondary" type="date" value="2015-09-24"/>
+									开始时间：<input name="start" id="start_date" class="btn btn-sm btn-outline-secondary" type="date"/>
 								</label>
 							</div>
 							<div class="btn-group mr-2">
 								<label>
-									结束时间：<input class="btn btn-sm btn-outline-secondary" type="date"
-												value="2015-09-24"/>
+									结束时间：<input name="end" id="end_date" class="btn btn-sm btn-outline-secondary" type="date"/>
 								</label>
 							</div>
 							<div class="btn-group mr-2">
 								<label>
-									<button class="btn btn-sm btn-outline-secondary">导出为excel文件</button>
+									<button class="btn btn-sm btn-primary" onclick="getSales()">查询</button>
 								</label>
 							</div>
-						</div>
+						</form>
 					</div>
 
-					<canvas class="my-4 chartjs-render-monitor" id="myChart" width="1076" height="454" style="display: block; width: 1076px; height: 454px;"></canvas>
+					<canvas class="my-4" id="myChart" width="1076" height="454" style="display: block; width: 1076px; height: 454px;"></canvas>
 
 					<h2>Section title</h2>
 					<div class="table-responsive">
-						<table class="table table-striped table-sm">
+						<table data-toggle="table" class="table table-bordered table-hover table-striped"
+							   data-browse="true" data-thead-classes="thead-dark" data-pagination="true"
+							   th:data-locale="${session.locale}" id="table" data-search="true"
+							   data-show-footer="true" data-detail-view="true"
+							   data-detail-formatter="detailFormatter">
 							<thead>
 							<tr>
-								<th>#</th>
-								<th>Header</th>
-								<th>Header</th>
-								<th>Header</th>
-								<th>Header</th>
+								<th data-sortable="true" data-field="date" data-align="center"
+									data-footer-formatter="profitMatter">日期</th>
+								<th data-sortable="true" data-field="name" data-align="center"
+									data-footer-formatter="discountMatter">顾客姓名</th>
+								<th data-sortable="true" data-field="purchase" data-align="center"
+									data-footer-formatter="stockNumFormatter">进货价</th>
+								<th data-sortable="true" data-field="receivable" data-align="center"
+									data-footer-formatter="stockNumFormatter">应收款</th>
+								<th data-sortable="true" data-field="actual" data-align="center"
+									data-footer-formatter="stockNumFormatter">实收款</th>
 							</tr>
 							</thead>
 							<tbody>
-							<tr>
-								<td>1,001</td>
-								<td>Lorem</td>
-								<td>ipsum</td>
-								<td>dolor</td>
-								<td>sit</td>
-							</tr>
-							<tr>
-								<td>1,002</td>
-								<td>amet</td>
-								<td>consectetur</td>
-								<td>adipiscing</td>
-								<td>elit</td>
+							<tr th:each="order:${orders}">
+								<td th:text="${order.date}"></td>
+								<td th:text="${order.name}"></td>
+								<td th:text="${order.purchase}"></td>
+								<td th:text="${order.receivable}"></td>
+								<td th:text="${order.actual}"></td>
 							</tr>
 							</tbody>
 						</table>
@@ -119,44 +97,77 @@
 		<!-- Bootstrap core JavaScript
     ================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
-		<script type="text/javascript" src="asserts/js/jquery-3.2.1.slim.min.js" th:src="@{/asserts/js/jquery-3.2.1.slim.min.js}"></script>
-		<script type="text/javascript" src="asserts/js/popper.min.js" th:src="@{/asserts/js/popper.min.js}"></script>
-		<script type="text/javascript" src="asserts/js/bootstrap.min.js" th:src="@{/asserts/js/bootstrap.min.js}"></script>
-
+		<script type="text/javascript" src="../../static/asserts/js/jquery-3.2.1.slim.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+		<script type="text/javascript" src="../../static/asserts/js/popper.min.js" th:src="@{/asserts/js/popper.min.js}"></script>
+		<script type="text/javascript" src="../../static/asserts/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+		<script type="text/javascript" th:src="@{/webjars/bootstrap-table/1.15.5/bootstrap-table.min.js}"></script>
+		<script type="text/javascript" th:src="@{/webjars/bootstrap-table/1.15.5/locale/bootstrap-table-zh-CN.js}"></script>
+		<script type="text/javascript" th:src="@{/webjars/bootstrap-table/1.15.5/locale/bootstrap-table-en-US.js}"></script>
 		<!-- Icons -->
-		<script type="text/javascript" src="asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
+		<script type="text/javascript" src="../../static/asserts/js/feather.min.js"
+				th:src="@{/asserts/js/feather.min.js}"></script>
 		<script>
 			feather.replace()
 		</script>
-
 		<!-- Graphs -->
 		<script type="text/javascript" src="asserts/js/Chart.min.js" th:src="@{/asserts/js/Chart.min.js}"></script>
-		<script>
-			var ctx = document.getElementById("myChart");
-			var myChart = new Chart(ctx, {
+		<script type="text/javascript" th:inline="javascript">
+			const ctx = document.getElementById("myChart");
+			const myChart = new Chart(ctx, {
 				type: 'line',
-				data: {
-					labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-					datasets: [{
-						data: [1,2,3,4,5,6,7],
-						label: 'abc',
-						lineTension: 0,
-						backgroundColor: 'transparent',
-						borderColor: '#007bff',
-						borderWidth: 4,
-						pointBackgroundColor: '#007bff'
-					},
-					{
-						data: [12,3,2,5,2,8,9],
-						label: 'hello',
-						lineTension: 0,
-						backgroundColor: 'transparent',
-						borderColor: '#ff2e27',
-						borderWidth: 4,
-						pointBackgroundColor: '#ff2e27'
-					}]
-				}
+				data: [[${jsonData}]]
 			});
+		</script>
+		<script type="text/javascript" th:inline="javascript">
+			function stockNumFormatter(data) {
+				let total = 0;
+				const field = this.field;
+				for (let i = 0; i < data.length; i++) {
+					total = total + parseFloat(data[i][field]);
+				}
+				return "总计：" + total;
+			}
+			
+			function profitMatter(data) {
+				let total = 0;
+				for(let i = 0;i < data.length; i++) {
+					total = total + parseFloat(data[i]['actual'] - data[i]['purchase']);
+				}
+				return "总利润：" + total;
+			}
+			
+			function discountMatter(data) {
+				let total = 0;
+				for(let i = 0; i < data.length; i++) {
+					total = total + parseFloat(data[i]['receivable'] - data[i]['actual']);
+				}
+				return "总优惠：" + total;
+			}
+
+			function detailFormatter(index, row) {
+				let d = "";
+				const goodsArr = [[${orders}]][index]["goods"];
+				for(let i = 0; i < goodsArr.length; i++) {
+					d = d +
+							"<tr>" +
+							"<td>" + goodsArr[i]["g_name"] + "</td> " +
+							"<td>" + goodsArr[i]["g_number"] + "</td> " +
+							"<td>" + goodsArr[i]["g_price"] + "</td> " +
+							"<td>" + goodsArr[i]["g_all"] + "</td>" +
+							"</tr>";
+				}
+				const s = "<table data-toggle='table' class='table table-bordered table-hover table-striped table-sm'>" +
+							"<thead>"+
+							"<tr>"+
+								"<th data-sortable='true' data-field='g_name' data-align='center'>商品名</th> <th data-sortable='true' data-field='g_number' data-align='center'>数量</th> <th data-sortable='true' data-field='g_price' data-align='center'>单价</th> <th data-sortable='true' data-field='g_all' data-align='center'>合计</th>"+
+							"</tr>"+
+							"</thead>"+
+							"<tbody>"+
+							d +
+							"</tbody>"+
+						"</table>";
+				return s;
+			}
 		</script>
 
 	</body>

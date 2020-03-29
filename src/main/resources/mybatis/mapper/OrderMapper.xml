@@ -11,6 +11,13 @@
     <select id="getOrderByDate" resultMap="OrderMap">
         select * from `order` o inner join goods g on o.id=g.g_order_id where DATE_FORMAT(o.date,'%Y%m%d')=#{date}
     </select>
+<!--    Collection<Order> getOrderByDates(String startDate, String endDate);-->
+    <select id="getOrderByDates" resultMap="OrderMap">
+        select *
+        from `order` o
+                 left join goods g on o.id = g.g_order_id
+        where DATE_FORMAT(o.date, '%Y%m%d') between #{startDate} and #{endDate}
+    </select>
     
     <resultMap id="OrderMap" type="com.smilegzc.spring_account.entity.Order">
         <id property="id" column="id"/>

@@ -8,7 +8,7 @@ create table `order`
     `purchase`       float(16)          default null,
     `receivable` float(16)          default null,
     `actual`     float(16)          default null,
-    `date`       date NOT NULL,
+    `date`       datetime NOT NULL,
     primary key (`id`)
 ) engine = InnoDB
   auto_increment = 1

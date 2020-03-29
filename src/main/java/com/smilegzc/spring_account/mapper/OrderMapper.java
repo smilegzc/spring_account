@@ -4,7 +4,6 @@ import com.smilegzc.spring_account.entity.Goods;
 import com.smilegzc.spring_account.entity.Order;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.Collection;
 
 /**
@@ -15,6 +14,7 @@ import java.util.Collection;
 public interface OrderMapper {
     Collection<Order> getOrderByName(String name);
     Collection<Order> getOrderByDate(String date);
+    Collection<Order> getOrderByDates(String startDate, String endDate);
     void setOrder(Order order);
     void delOrder(int id);
     

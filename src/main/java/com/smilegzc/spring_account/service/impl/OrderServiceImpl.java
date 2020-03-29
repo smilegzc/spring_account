@@ -66,7 +66,6 @@ public class OrderServiceImpl implements OrderService {
                 goodsList.add(goods);
             }
         }
-        System.out.println(goodsList);
         return goodsList;
     }
 
@@ -81,11 +80,10 @@ public class OrderServiceImpl implements OrderService {
         float receivable = 0;
         float purchase = 0;
         String goodsName;
-        Product product = new Product();
         for(Goods goods:goodsList) {
             goodsName = goods.getG_name();
-            receivable += productsSell.get(goodsName);
-            purchase += productsPurchase.get(goodsName);
+            receivable += productsSell.get(goodsName) * goods.getG_number();
+            purchase += productsPurchase.get(goodsName) * goods.getG_number();
         }
         
         order.setReceivable(receivable);

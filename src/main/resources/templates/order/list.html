@@ -17,32 +17,6 @@
 		<link rel="stylesheet" th:href="@{/webjars/bootstrap-table/1.15.5/bootstrap-table.min.css}">
 		<!-- Custom styles for this template -->
 		<link href="../../static/asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
-		<style type="text/css">
-			/* Chart.js */
-			
-			@-webkit-keyframes chartjs-render-animation {
-				from {
-					opacity: 0.99
-				}
-				to {
-					opacity: 1
-				}
-			}
-			
-			@keyframes chartjs-render-animation {
-				from {
-					opacity: 0.99
-				}
-				to {
-					opacity: 1
-				}
-			}
-			
-			.chartjs-render-monitor {
-				-webkit-animation: chartjs-render-animation 0.001s;
-				animation: chartjs-render-animation 0.001s;
-			}
-		</style>
 	</head>
 
 	<body>
@@ -63,32 +37,13 @@
 		};
 	</script>
 		<div th:replace="commons/bar::topbar"></div>
-	<div class="modal fade" id="myModal" data-backdrop="static" tabindex="-1" role="dialog"
-		 aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true"></span>
-					</button>
-				</div>
-				<div class="modal-body">
-					输入错误
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">Understood</button>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 		<div class="container-fluid">
 			<div class="row">
 				<div th:replace="commons/bar::sidebar(activeUri='order')"></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 					<div class="table-responsive">
-						
 						<table data-toggle="table" class="table table-bordered table-hover table-striped" 
 							   data-browse="true" data-thead-classes="thead-dark"
 							   th:data-locale="${session.locale}" id="table">
@@ -131,6 +86,11 @@
 		<script type="text/javascript" th:src="@{/webjars/bootstrap-table/1.15.5/locale/bootstrap-table-zh-CN.js}"></script>
 		<script type="text/javascript" th:src="@{/webjars/bootstrap-table/1.15.5/locale/bootstrap-table-en-US.js}"></script>
 		<!-- Icons -->
+	<script type="text/javascript" src="../../static/asserts/js/feather.min.js"
+			th:src="@{/asserts/js/feather.min.js}"></script>
+	<script>
+		feather.replace()
+	</script>
 		<script type="text/javascript" src="../../static/asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
 		<script type="text/javascript" th:inline="javascript">
 			

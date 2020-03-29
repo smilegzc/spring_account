@@ -17,32 +17,6 @@
 		<link rel="stylesheet" th:href="@{/webjars/bootstrap-table/1.15.5/bootstrap-table.min.css}">
 		<!-- Custom styles for this template -->
 		<link href="../../static/asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
-		<style type="text/css">
-			/* Chart.js */
-			
-			@-webkit-keyframes chartjs-render-animation {
-				from {
-					opacity: 0.99
-				}
-				to {
-					opacity: 1
-				}
-			}
-			
-			@keyframes chartjs-render-animation {
-				from {
-					opacity: 0.99
-				}
-				to {
-					opacity: 1
-				}
-			}
-			
-			.chartjs-render-monitor {
-				-webkit-animation: chartjs-render-animation 0.001s;
-				animation: chartjs-render-animation 0.001s;
-			}
-		</style>
 	</head>
 
 	<body>
@@ -109,6 +83,11 @@
 		<script type="text/javascript" th:src="@{/webjars/bootstrap-table/1.15.5/locale/bootstrap-table-zh-CN.js}"></script>
 		<script type="text/javascript" th:src="@{/webjars/bootstrap-table/1.15.5/locale/bootstrap-table-en-US.js}"></script>
 		<!-- Icons -->
+		<script type="text/javascript" src="../../static/asserts/js/feather.min.js"
+				th:src="@{/asserts/js/feather.min.js}"></script>
+		<script>
+			feather.replace()
+		</script>
 	</body>
 
 </html>

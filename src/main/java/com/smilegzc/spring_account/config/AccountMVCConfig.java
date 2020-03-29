@@ -21,7 +21,6 @@ public class AccountMVCConfig implements WebMvcConfigurer {
         registry.addViewController("/").setViewName("login");
         registry.addViewController("/index").setViewName("login");
         registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/main").setViewName("dashboard");
     }
 
     /**
