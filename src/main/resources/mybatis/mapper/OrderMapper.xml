@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smilegzc.spring_account.mapper.OrderMapper">
+<!--    Collection<Order> getOrders();-->
+    <select id="getOrders" resultMap="OrderMap">
+        select * from `order`
+    </select>
 <!--    Collection<Order> getOrderByName(String name);-->
     <select id="getOrderByName" resultMap="OrderMap">
         select * from `order` o inner join goods g on o.id=g.g_order_id where o.name=#{name}

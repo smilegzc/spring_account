@@ -21,4 +21,5 @@ public interface ProductMapper {
     void purchaseProduct(Product product);
     Collection<PurchaseProduct> getPurchaseByDates(String start, String end);
     void delPurchaseById(int id);
+    Collection<PurchaseProduct> getPurchaseProducts();
 }

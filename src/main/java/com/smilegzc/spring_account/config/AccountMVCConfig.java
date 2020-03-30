@@ -27,7 +27,7 @@ public class AccountMVCConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        //registry.addInterceptor(new AuthorityHandler()).addPathPatterns("/**").excludePathPatterns("/", "/index", "/user/login", "/webjars/**", "/asserts/**");
+        registry.addInterceptor(new AuthorityHandler()).addPathPatterns("/**").excludePathPatterns("/", "/index", "/user/login", "/webjars/**", "/asserts/**");
     }
 
     /**

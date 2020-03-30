@@ -12,6 +12,7 @@ import java.util.Collection;
  */
 @Service
 public interface OrderMapper {
+    Collection<Order> getOrders();
     Collection<Order> getOrderByName(String name);
     Collection<Order> getOrderByDate(String date);
     Collection<Order> getOrderByDates(String startDate, String endDate);

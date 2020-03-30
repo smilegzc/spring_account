@@ -33,6 +33,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Collection<Order> getOrders() {
+        return orderMapper.getOrders();
+    }
+
+    @Override
     public Map<String, Float> newOrder() {
         products = productMapper.getProducts();
         productsSell = new HashMap<>();

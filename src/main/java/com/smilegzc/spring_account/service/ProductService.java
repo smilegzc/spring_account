@@ -25,6 +25,8 @@ public interface ProductService {
     void purchaseProduct(Product product);
     
     void delPurchaseProduct(int id);
+
+    Collection<PurchaseProduct> getPurchaseProducts();
     
     Collection<PurchaseProduct> getPurchaseProductByDates(String start, String end);
 }

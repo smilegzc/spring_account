@@ -12,6 +12,8 @@ import java.util.Map;
  * 时间:上午12:45
  */
 public interface OrderService {
+
+    Collection<Order> getOrders();
     
     Collection<Order> getOrderByName(String name);
 

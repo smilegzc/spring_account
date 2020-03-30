@@ -71,6 +71,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Collection<PurchaseProduct> getPurchaseProducts() {
+        return productMapper.getPurchaseProducts();
+    }
+
+    @Override
     public Collection<PurchaseProduct> getPurchaseProductByDates(String start, String end) {
         LocalDate[] localDates = dateFormatter(start, end);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
