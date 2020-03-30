@@ -9,6 +9,6 @@
 ## 运行依赖
   - 请查看pom.xml文件
 ## 使用方法
-  - 修改yml配置文件数据库配置信息
+  - 修改yml配置文件数据库配置信息,按照resources/SQL目录下的sql文件创建数据表
   - 直接导入IDEA使用
   - 下载release文件夹下的jar包直接使用java命令运行
