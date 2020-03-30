@@ -56,8 +56,7 @@
 					</div>
 
 					<canvas class="my-4" id="myChart" width="1076" height="454" style="display: block; width: 1076px; height: 454px;"></canvas>
-
-					<h2>销售记录</h2>
+					
 					<div class="table-responsive">
 						<table data-toggle="table" class="table table-bordered table-hover table-striped"
 							   data-browse="true" data-thead-classes="thead-dark" data-pagination="true"
@@ -65,6 +64,9 @@
 							   data-show-footer="true" data-detail-view="true"
 							   data-detail-formatter="detailFormatter">
 							<thead>
+							<tr>
+								<th colspan="5" data-align="center">销售记录</th>
+							</tr>
 							<tr>
 								<th data-sortable="true" data-field="date" data-align="center"
 									data-footer-formatter="profitMatter">日期</th>
@@ -86,6 +88,42 @@
 								<td th:text="${order.receivable}"></td>
 								<td th:text="${order.actual}"></td>
 							</tr>
+							</tbody>
+						</table>
+					</div>
+					<br><br>
+					
+					<div class="table-responsive">
+						<table data-toggle="table" class="table table-bordered table-hover table-striped"
+							   data-browse="true" data-thead-classes="thead-dark" data-pagination="true"
+							   th:data-locale="${session.locale}" id="goods_table" data-search="true"
+							   data-show-footer="true">
+							<thead>
+							<tr>
+								<th colspan="4" data-align="center">销售详情</th>
+							</tr>
+							<tr>
+								<th data-sortable="true" data-field="g_name" data-align="center">产品名</th>
+								<th data-sortable="true" data-field="g_number" data-align="center"
+									data-footer-formatter="stockNumFormatter">数量
+								</th>
+								<th data-sortable="true" data-field="g_price" data-align="center"
+									data-footer-formatter="stockNumFormatter">单价
+								</th>
+								<th data-sortable="true" data-field="g_all" data-align="center"
+									data-footer-formatter="stockNumFormatter">总价
+								</th>
+							</tr>
+							</thead>
+							<tbody>
+							<a th:each="order:${orders}">
+								<tr th:each="goods:${order.goods}">
+								<td th:text="${goods.g_name}"></td>
+								<td th:text="${goods.g_number}"></td>
+								<td th:text="${goods.g_price}"></td>
+								<td th:text="${goods.g_all}"></td>
+								</tr>
+							</a>
 							</tbody>
 						</table>
 					</div>
@@ -156,7 +194,7 @@
 							"<td>" + goodsArr[i]["g_all"] + "</td>" +
 							"</tr>";
 				}
-				const s = "<table data-toggle='table' class='table table-bordered table-hover table-striped table-sm'>" +
+				const s = "<table data-toggle='table' class='table table-bordered table-hover table-striped table-sm' data-thead-classes='thead-dark'>" +
 							"<thead>"+
 							"<tr>"+
 								"<th data-sortable='true' data-field='g_name' data-align='center'>商品名</th> <th data-sortable='true' data-field='g_number' data-align='center'>数量</th> <th data-sortable='true' data-field='g_price' data-align='center'>单价</th> <th data-sortable='true' data-field='g_all' data-align='center'>合计</th>"+
