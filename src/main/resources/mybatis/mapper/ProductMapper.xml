@@ -13,7 +13,7 @@
     </select>
 <!--    Product getProductByName(String name);-->
     <select id="getProductByName" resultMap="product_map">
-        select * from product where id = #{name}
+        select * from product where name = #{name}
     </select>
     
     <resultMap id="product_map" type="com.smilegzc.spring_account.entity.Product">
@@ -37,8 +37,24 @@
         update product set name=#{name}, purchase=#{purchase}, sell=#{sell}, number=#{number} where id=#{id}
     </update>
     
-<!--    void sellProduct(Product product);-->
-    <update id="sellProduct">
-        insert into sell_product(name, purchase, number) VALUES (#{name}, #{purchase}, #{number})
+<!--    void purchaseProduct(Product product);-->
+    <update id="purchaseProduct">
+        insert into sell_product(name, purchase, number, creat_date) VALUES (#{name}, #{purchase}, #{number},now())
     </update>
+
+<!--    Collection<PurchaseProduct> getPurchaseByDates(String start, String end);-->
+    <select id="getPurchaseByDates" resultMap="purchaseMap">
+        select * from sell_product where DATE_FORMAT(creat_date, '%Y%m%d') between #{start} and #{end}
+    </select>
+    <resultMap id="purchaseMap" type="com.smilegzc.spring_account.entity.PurchaseProduct">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="purchase" column="purchase"/>
+        <result property="number" column="number"/>
+        <result property="creatDate" column="creat_date"/>
+    </resultMap>
+<!--    void delPurchaseById(int id);-->
+    <delete id="delPurchaseById">
+        delete from sell_product where id=#{id}
+    </delete>
 </mapper>

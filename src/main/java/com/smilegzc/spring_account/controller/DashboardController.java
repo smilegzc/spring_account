@@ -3,10 +3,12 @@ package com.smilegzc.spring_account.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.smilegzc.spring_account.entity.Order;
 import com.smilegzc.spring_account.service.DashboardService;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.Collection;
 
 /**
@@ -26,7 +28,7 @@ public class DashboardController {
     }
 
     @GetMapping("/main")
-    public String showDashboard(String start, String end,Model model) {
+    public String showDashboard(String start, String end, Model model) {
         JSONObject jsonObject = dashboardService.saleDashboard(start, end);
         Collection<Order> orders = dashboardService.saleStatistics(start, end);
         model.addAttribute("jsonData", jsonObject);

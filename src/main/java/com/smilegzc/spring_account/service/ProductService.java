@@ -1,6 +1,7 @@
 package com.smilegzc.spring_account.service;
 
 import com.smilegzc.spring_account.entity.Product;
+import com.smilegzc.spring_account.entity.PurchaseProduct;
 
 import java.util.Collection;
 
@@ -21,5 +22,9 @@ public interface ProductService {
 
     void updateProduct(Product product);
 
-    void sellProduct(Product product);
+    void purchaseProduct(Product product);
+    
+    void delPurchaseProduct(int id);
+    
+    Collection<PurchaseProduct> getPurchaseProductByDates(String start, String end);
 }

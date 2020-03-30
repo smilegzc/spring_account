@@ -11,7 +11,8 @@
 		<title>Dashboard Template for Bootstrap</title>
 		<!-- Bootstrap core CSS -->
 		<link href="../../static/asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}" rel="stylesheet">
-		
+		<link href="../../static/asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+
 	</head>
 
 	<body>
@@ -19,7 +20,7 @@
 
 		<div class="container-fluid">
 			<div class="row">
-				<div th:replace="commons/bar::sidebar(activeUri='emps')"></div>
+				<div th:replace="commons/bar::sidebar(activeUri='customer')"></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 					<form name="form1" th:action="@{/customer}" method="post">

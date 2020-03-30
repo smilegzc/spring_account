@@ -1,6 +1,7 @@
 package com.smilegzc.spring_account.mapper;
 
 import com.smilegzc.spring_account.entity.Product;
+import com.smilegzc.spring_account.entity.PurchaseProduct;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -17,5 +18,7 @@ public interface ProductMapper {
     void setProduct(Product product);
     void delProduct(int id);
     void updateProduct(Product product);
-    void sellProduct(Product product);
+    void purchaseProduct(Product product);
+    Collection<PurchaseProduct> getPurchaseByDates(String start, String end);
+    void delPurchaseById(int id);
 }

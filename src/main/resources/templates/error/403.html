@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,41 +20,11 @@
 
 		<div class="container-fluid">
 			<div class="row">
-				<div th:replace="commons/bar::sidebar(activeUri='product')"></div>
+				<div th:replace="commons/bar::sidebar(activeUri='main')"></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-					<form name="form1" th:action="@{/product}" method="post">
-						<input type="hidden" name="_method" value="put" th:if="${product!=null}"/>
-						<label>
-							<input th:type="hidden" name="id" th:value="${product!=null}?${product.id}" th:if="${product!=null}"/>
-						</label>
-						<div class="form-group">
-							<label>
-								产品名:<input name="name" type="text" th:value="${product!=null}?${product.name}" class="form-control"
-								   required="required">
-							</label>
-						</div>
-						<div class="form-group">
-							<label>
-								进货价:<input name="purchase" type="text" th:value="${product!=null}?${product.purchase}" class="form-control"
-								   required="required">
-							</label>
-						</div>
-						<div class="form-group">
-							<label>
-								卖货价:<input name="sell" type="text" th:value="${product!=null}?${product.sell}" class="form-control"
-								   required="required">
-							</label>
-						</div>
-						<div class="form-group">
-							<label>
-								库存:<input name="number" type="text" th:value="${product!=null}?${product.number}" class="form-control"
-								   required="required">
-							</label>
-						</div>
-						
-						<button type="submit" id="save" class="btn btn-primary" th:text="${product!=null}?'修改':'添加'">添加</button>
-					</form>
+					<h1>[[${status}]]</h1>
+					<h4>[[${message}]]</h4>
 				</main>
 			</div>
 		</div>
@@ -66,6 +35,12 @@
 		<script type="text/javascript" src="../../static/asserts/js/jquery-3.2.1.slim.min.js" th:src="@{/asserts/js/jquery-3.2.1.slim.min.js}"></script>
 		<script type="text/javascript" src="../../static/asserts/js/popper.min.js" th:src="@{/asserts/js/popper.min.js}"></script>
 		<script type="text/javascript" src="../../static/asserts/js/bootstrap.min.js" th:src="@{/asserts/js/bootstrap.min.js}"></script>
+
+		<!-- Icons -->
+		<script type="text/javascript" src="../../static/asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
+		<script>
+			feather.replace()
+		</script>
 	</body>
 
 </html>

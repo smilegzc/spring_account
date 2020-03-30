@@ -1,11 +1,16 @@
 package com.smilegzc.spring_account.controller;
 
 import com.smilegzc.spring_account.entity.Product;
+import com.smilegzc.spring_account.entity.PurchaseProduct;
 import com.smilegzc.spring_account.mapper.ProductMapper;
+import com.smilegzc.spring_account.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -15,9 +20,9 @@ import java.util.Collection;
 @Controller
 public class ProductController {
     
-    final ProductMapper productService;
+    final ProductService productService;
 
-    public ProductController(ProductMapper productService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
@@ -63,8 +68,24 @@ public class ProductController {
         return "product/sell_product";
     }
     @PutMapping("/sell_product")
-    public String sellProduct(Product sellProduct) {
-        productService.sellProduct(sellProduct);
+    public String purchaseProduct(Product sellProduct) {
+        productService.purchaseProduct(sellProduct);
         return "redirect:/products";
+    }
+    
+    @GetMapping("/reports")
+    public String reports(String start, String end, Model model) {
+        Collection<PurchaseProduct> purchaseProducts = 
+                productService.getPurchaseProductByDates(start, end);
+
+        model.addAttribute("reports", purchaseProducts);
+        return "product/sell_product";
+    }
+
+    @PostMapping("/reports")
+    @ResponseBody
+    public String delReports(int id) {
+        productService.delPurchaseProduct(id);
+        return "success";
     }
 }

@@ -2,15 +2,12 @@ package com.smilegzc.spring_account.controller;
 
 import com.smilegzc.spring_account.entity.Employee;
 import com.smilegzc.spring_account.mapper.EmployeeMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -52,10 +49,15 @@ public class LoginController {
     
     @RequestMapping("/user/logout")
     public String logout(HttpServletRequest request) {
-        Enumeration em = request.getSession().getAttributeNames();
-        while (em.hasMoreElements()) {
-            request.getSession().removeAttribute(em.nextElement().toString());
+        Enumeration<String> attributeNames = request.getSession().getAttributeNames();
+        while (attributeNames.hasMoreElements()) {
+            request.getSession().removeAttribute(attributeNames.nextElement());
         }
         return "redirect:/index";
+    }
+    
+    @RequestMapping("/error/authority")
+    public String authority() {
+        return "error/authority";
     }
 }

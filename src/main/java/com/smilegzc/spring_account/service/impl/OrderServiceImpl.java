@@ -9,7 +9,6 @@ import com.smilegzc.spring_account.entity.Product;
 import com.smilegzc.spring_account.mapper.OrderMapper;
 import com.smilegzc.spring_account.mapper.ProductMapper;
 import com.smilegzc.spring_account.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -107,8 +106,14 @@ public class OrderServiceImpl implements OrderService {
     public void setOrder(Order order) {
         orderMapper.setOrder(order);
         int orderId = order.getId();
+        Product goodsProduct;
+        int temp;
         for(Goods goods:order.getGoods()) {
             goods.setG_order_id(orderId);
+            goodsProduct = productMapper.getProductByName(goods.getG_name());
+            temp = goodsProduct.getNumber() - goods.getG_number();
+            goodsProduct.setNumber(temp);
+            productMapper.updateProduct(goodsProduct);
             orderMapper.setGoods(goods);
         }
     }

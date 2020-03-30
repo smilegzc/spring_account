@@ -12,87 +12,129 @@
     <!-- Bootstrap core CSS -->
     <link href="../../static/asserts/css/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+          crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-table/1.15.5/bootstrap-table.min.css}">
     <!-- Custom styles for this template -->
     <link href="../../static/asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
-    <style type="text/css">
-        /* Chart.js */
-
-        @-webkit-keyframes chartjs-render-animation {
-            from {
-                opacity: 0.99
-            }
-            to {
-                opacity: 1
-            }
-        }
-
-        @keyframes chartjs-render-animation {
-            from {
-                opacity: 0.99
-            }
-            to {
-                opacity: 1
-            }
-        }
-
-        .chartjs-render-monitor {
-            -webkit-animation: chartjs-render-animation 0.001s;
-            animation: chartjs-render-animation 0.001s;
-        }
-    </style>
 </head>
 
 <body>
-<div th:replace="commons/bar::topbar"></div>
+<script type="text/javascript">
+    window.operateEvent = {
+        'click .del': function (e, value, row, index) {
+            if(confirm("确定要删除吗？")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/reports",//传入后台的地址/方法
+                    data: row,//参数，这里是一个json语句
+                    success: function (msg) {
+                        $("#table").bootstrapTable('remove', {field: 'id', values: row["id"]});
+                    },
+                    error: function (err) {
+                        alert("数据传输错误，请刷新页面后重试");
+                    }
+                });
+            }
+        }
+    };
+</script>
+        <div th:replace="commons/bar::topbar"></div>
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div th:replace="commons/bar::sidebar(activeUri='reports')"></div>
+        
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                        <h1 class="h2">进货记录</h1>
+                        <form action="/reports">
+                            <div class="btn-group mr-2">
+                                <label>
+                                    开始时间：<input name="start" id="start_date" class="btn btn-sm btn-outline-secondary"
+                                                type="date"/>
+                                </label>
+                            </div>
+                            <div class="btn-group mr-2">
+                                <label>
+                                    结束时间：<input name="end" id="end_date" class="btn btn-sm btn-outline-secondary" type="date"/>
+                                </label>
+                            </div>
+                            <div class="btn-group mr-2">
+                                <label>
+                                    <button class="btn btn-sm btn-primary">查询</button>
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                        <table data-toggle="table" class="table table-bordered table-hover table-striped"
+                               data-browse="true" data-thead-classes="thead-dark" data-pagination="true"
+                               th:data-locale="${session.locale}" id="table" data-search="true"
+                               data-show-footer="true">
+                            <thead>
+                            <tr>
+                                <th data-sortable="true" data-field="id" data-align="center">编号</th>
+                                <th data-sortable="true" data-field="creatDate" data-align="center">日期</th>
+                                <th data-sortable="true" data-field="name" data-align="center">产品名</th>
+                                <th data-sortable="true" data-field="purchase" data-align="center"
+                                    data-footer-formatter="stockNumFormatter">进货价
+                                </th>
+                                <th data-sortable="true" data-field="number" data-align="center"
+                                    data-footer-formatter="stockNumFormatter">数量
+                                </th>
+                                <th data-field="action" data-align="center" data-formatter="formatter"
+                                    data-events="operateEvent">操作
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="report:${reports}">
+                                
+                                <td th:text="${report.id}"></td>
+                                <td th:text="${report.creatDate}"></td>
+                                <td th:text="${report.name}"></td>
+                                <td th:text="${report.purchase}"></td>
+                                <td th:text="${report.number}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
+            </div>
+        </div>
+        
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src="../../static/asserts/js/jquery-3.2.1.slim.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+		<script type="text/javascript" src="../../static/asserts/js/popper.min.js" th:src="@{/asserts/js/popper.min.js}"></script>
+		<script type="text/javascript" src="../../static/asserts/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+		<script type="text/javascript" th:src="@{/webjars/bootstrap-table/1.15.5/bootstrap-table.min.js}"></script>
+		<script type="text/javascript" th:src="@{/webjars/bootstrap-table/1.15.5/locale/bootstrap-table-zh-CN.js}"></script>
+		<script type="text/javascript" th:src="@{/webjars/bootstrap-table/1.15.5/locale/bootstrap-table-en-US.js}"></script>
+		<!-- Icons -->
+		<script type="text/javascript" src="../../static/asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
+		<script>
+			feather.replace()
+		</script>
+        <script type="text/javascript" th:inline="javascript">
+            function stockNumFormatter(data) {
+                let total = 0;
+                const field = this.field;
+                for (let i = 0; i < data.length; i++) {
+                    total = total + parseFloat(data[i][field]);
+                }
+                return "总计：" + total;
+            }
 
-<div class="container-fluid">
-    <div class="row">
-        <div th:replace="commons/bar::sidebar(activeUri='emps')"></div>
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <form name="form1" th:action="@{/sell_product}" method="post">
-                <input type="hidden" name="_method" value="put"/>
-                <label>
-                    <input th:type="hidden" name="id" th:value="${product.id}"/>
-                </label>
-                <div class="form-group">
-                    <label>
-                        产品名:<input name="name" type="text" th:value="${product.name}"
-                                   class="form-control"
-                                   required="required">
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>
-                        进货价:<input name="purchase" type="text" th:value="${product.purchase}"
-                                   class="form-control"
-                                   required="required">
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>
-                        数量:<input name="number" type="text"
-                                  class="form-control"
-                                  required="required">
-                    </label>
-                </div>
-
-                <button type="submit" id="save" class="btn btn-primary">完成</button>
-            </form>
-        </main>
-    </div>
-</div>
-
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script type="text/javascript" src="../../static/asserts/js/jquery-3.2.1.slim.min.js"
-        th:src="@{/asserts/js/jquery-3.2.1.slim.min.js}"></script>
-<script type="text/javascript" src="../../static/asserts/js/popper.min.js"
-        th:src="@{/asserts/js/popper.min.js}"></script>
-<script type="text/javascript" src="../../static/asserts/js/bootstrap.min.js"
-        th:src="@{/asserts/js/bootstrap.min.js}"></script>
+            function formatter(value, row, index) {
+                return [
+                    '<a class="del btn btn-sm btn-danger" href="#">删除</a>',
+                ].join('');
+            }
+        </script>
 </body>
 
 </html>

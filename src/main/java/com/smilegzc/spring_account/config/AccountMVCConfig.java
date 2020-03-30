@@ -1,9 +1,11 @@
 package com.smilegzc.spring_account.config;
 
 import com.smilegzc.spring_account.component.AccountLocalResolver;
+import com.smilegzc.spring_account.component.AuthorityHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -21,6 +23,11 @@ public class AccountMVCConfig implements WebMvcConfigurer {
         registry.addViewController("/").setViewName("login");
         registry.addViewController("/index").setViewName("login");
         registry.addViewController("/login").setViewName("login");
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        //registry.addInterceptor(new AuthorityHandler()).addPathPatterns("/**").excludePathPatterns("/", "/index", "/user/login", "/webjars/**", "/asserts/**");
     }
 
     /**

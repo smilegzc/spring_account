@@ -14,32 +14,6 @@
 
 		<!-- Custom styles for this template -->
 		<link href="../../static/asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
-		<style type="text/css">
-			/* Chart.js */
-			
-			@-webkit-keyframes chartjs-render-animation {
-				from {
-					opacity: 0.99
-				}
-				to {
-					opacity: 1
-				}
-			}
-			
-			@keyframes chartjs-render-animation {
-				from {
-					opacity: 0.99
-				}
-				to {
-					opacity: 1
-				}
-			}
-			
-			.chartjs-render-monitor {
-				-webkit-animation: chartjs-render-animation 0.001s;
-				animation: chartjs-render-animation 0.001s;
-			}
-		</style>
 		<script>
 			function KeyUp() {
 				var a = $('#password').val();
@@ -54,7 +28,7 @@
 
 		<div class="container-fluid">
 			<div class="row">
-				<div th:replace="commons/bar::sidebar(activeUri='emps')"></div>
+				<div th:replace="commons/bar::sidebar(activeUri='emp')"></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 					<form name="form1" th:action="@{/emp}" method="post">
@@ -83,6 +57,7 @@
 							<label>
 								旧密码:<input name="old_password" type="password" id="old_password" class="form-control"
 								   th:pattern="${emp.password}" th:title="密码输入错误" required="required">
+								<input name="type" type="hidden" value="1">
 							</label>
 						</div>
 						<div class="form-group">
@@ -98,7 +73,7 @@
 							</label>
 						</div>
 						
-						<div class="form-group">
+						<div class="form-group" th:if="${session.type==0}">
 							<label>管理员:</label><br/>
 							<div class="form-check form-check-inline">
 								<input class="form-check-input" type="radio" name="type"  value="1" th:checked="${emp!=null}?${emp.type==1}:true">
