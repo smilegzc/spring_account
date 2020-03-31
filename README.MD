@@ -1,4 +1,4 @@
-# 基于SpringBoot和MyBatis的商店销售帐目和库存管理系统
+# 基于SpringBoot和MyBatis的商店销售帐目和库存管理系统(近期不准备更新，以后更新随缘)
 
 ## 开发环境
   - IDE: Intellij IDEA 2019.3.4
